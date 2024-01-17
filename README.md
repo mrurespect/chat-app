@@ -33,3 +33,6 @@ Ce projet représente une application de messagerie basée sur Thymeleaf, dével
 5. Accédez à la page d'informations ("/info") pour voir les détails de votre profil.
 6. Pour gérer les utilisateurs de la conversation en tant qu'administrateur ou modérateur, accédez à la page "/users".
 7. Les administrateurs et modérateurs peuvent bannir des utilisateurs de la conversation.
+## Diagramme de classe
+![messagerie](https://github.com/mrurespect/chat-app/assets/121578147/74efdaf7-ed02-4bfe-9fc6-101602f12e6a)
+
