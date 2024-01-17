@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+<body class="vh-100 gradient-custom" style="overflow: hidden">
+<div th:replace="/header.html"></div>
+<section class="mt-5 pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
+                <h5 class="font-weight-bold mb-3 text-center text-white">Friends / Groups</h5>
+                <div class="card mask-custom">
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li th:each="conver ,stat :${conversations}" class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                                <a th:href="@{/home/{index}(index=${stat.index})}" class="text-center d-flex justify-content-between link-light">
+                                    <div class="d-flex  text-center " >
+                                        <div class="pt-1 text-center ">
+                                            <div>
+                                                <p class="fw-bold  mb-0" th:if="${conver.getNom()}" th:text="${conver.getNom()}" >John Doe</p>
+                                                <p class="fw-bold  mx-auto mb-0" th:unless="${conver.getNom()}" th:text="${other}" >John Doe</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-7 col-xl-7  h-100" th:if="${conversation}">
+                <div class="card-header d-flex justify-content-center p-3 mb-2 "
+                     style="border : 1px solid rgba(255,255,255,.3)">
+                    <a th:href="@{/users}">
+                        <p class="fw-bold mb-0" th:if="${conversation.getNom()}" th:text="${conversation.getNom()}" >John Doe</p>
+                        <p class="fw-bold mb-0" th:unless="${conversation.getNom()}"  th:text="${other}" >John Doe</p>
+                    </a>
+                </div>
+                <ul id="chatMessages" class="list-unstyled text-white" data-mdb-perfect-scrollbar="true" style="height: 320px; overflow: auto">
+                    <li th:each="message : ${messages}" th:class="${message.getSender().getId() == current.getId()} ? 'd-flex justify-content-end mb-4' : 'd-flex justify-content-start mb-4'">
+                        <div class="card mask-custom overflow-hidden w-75">
+                            <div class="card-header d-flex justify-content-between p-3" th:if="${conversation.getNom()}" th:unless="${(message.getSender().getId()==current.getId())}"
+                                 style="border-bottom: 1px solid rgba(255,255,255,.3);">
+                                <p class="fw-bold mb-0" th:text="${message.getSender().getName()}+' '+${message.getSender().getLastName()}">Brad Pitt</p>
+                                <p class="text-light small mb-0"><i class="far fa-clock" th:text="${message.getTime()}"></i></p>
+
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0" th:text="${message.getContent()}">Lorem ipsum dolor sit amet</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="">
+                    <div class="form-outline form-white">
+                        <textarea   required class="form-control" id="textArea" rows="3"></textarea>
+                        <style>
+                            #textArea {
+                                resize: none;
+                            }
+                        </style>
+                        <label class="form-label" for="textArea">Message</label>
+                    </div>
+                </div>
+                <button  th:disabled="${role == 'vue'}" type="button" id="send" class="m-0 btn btn-light btn-lg btn-rounded float-end">Send</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var chatMessages = document.getElementById("chatMessages");
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    let btn = document.querySelector("#send");
+    let textArea = document.querySelector("#textArea");
+
+    btn.addEventListener("click", (e) => {
+        sendData();
+    });
+
+    function sendData() {
+        let message = textArea.value;
+        let data ={
+            content:message
+        }
+        console.log("Sending message:", message);
+
+
+        fetch("http://localhost:8080/send",{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(data)
+        }).then(()=>{
+            textArea.value = "";
+        }).then(()=>{
+                location.reload();
+        })
+    }
+    // we Check if the Page Visibility API is supported in the browser
+    if (typeof document.hidden !== "undefined") {
+        var visibilityChange = "visibilitychange";
+        var hiddenProperty = "hidden";
+    } else if (typeof document.msHidden !== "undefined") {
+        visibilityChange = "msvisibilitychange";
+        hiddenProperty = "msHidden";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        visibilityChange = "webkitvisibilitychange";
+        hiddenProperty = "webkitHidden";
+    }
+
+    document.addEventListener(visibilityChange, function() {
+        if (!document[hiddenProperty]) {
+            // Page is visible (tab is active), reload the page
+            location.reload();
+        }
+    });
+
+
+</script>
+</body>
+</html>

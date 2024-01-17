@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>users</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            height: 20px;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="/header.html"></div>
+
+<table class="table-hover mt-5">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+        <th>role</th>
+        <th th:if="${role == 'moderator'}">Bannir</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="conv : ${conversationUsers}">
+        <td th:text="${conv.getUser().getName()}">Name</td>
+        <td th:text="${conv.getUser().getLastName()}">Last Name</td>
+        <td th:text="${conv.getUser().getUsername()}">Username</td>
+        <td th:text="${conv.getType()}">Username</td>
+        <td th:if="${role == 'moderator' && (conv.getType().toString()!='moderator' && conv.getType().toString()!='admin')}">
+            <a class="btn btn-outline-danger" th:href="@{/bannir/{index}(index=${conv.getUser().getId()})}">bannir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

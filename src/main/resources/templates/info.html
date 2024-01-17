@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+</head>
+<body style="background-color: #eee;" class="">
+<div th:replace="/header.html"></div>
+<section class="mt-3 container  d-flex justify-content-center align-items-center" style="height: 95vh">
+    <table class="table  table-hover w-100" >
+
+                <tr class="">
+                    <td class="h3 text-center" colspan="2">mes information</td>
+                </tr>
+                <tr>
+                    <td><p>username :</p></td>
+                    <td><p th:text="${username}"></p></td>
+                </tr>
+                <tr>
+                    <td><p>password :</p></td>
+                    <td><p th:text="${password}"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>first name :</p></td>
+                    <td><p th:text="${firstname}"></p></td>
+                </tr>
+                <tr>
+                    <td><p>last name :</p></td>
+                    <td><p th:text="${lastname}"></p></td>
+                </tr>
+                <tr>
+                    <td><p>email :</p></td>
+                    <td><p th:text="${email}"></p></td>
+                </tr>
+            </table>
+</section>
+</div>
+</body>
+</html>

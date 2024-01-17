@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+    <form method="post" action="/login" class="w-75 pb-5 mb-5 p-5  border border-2 shadow">
+        <h2 class="text-center">Login</h2>
+        <br/>
+        <label for="username">Username : </label>
+        <input onChange={getUserData} class="form-control my-input my-2" type="text" id="username" name="username"/>
+        <label for="password">Password : </label>
+        <input onChange={getUserData} class="form-control my-input my-2" type="password" id="password" name="password"/>
+        <div class="d-flex justify-content-between align-items-center">
+            <button type="submit" class="btn btn-info py-2 m-0 " >login</button>
+            <div class="text-danger py-2 m-0">
+                <p th:text="${error}"></p>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>
